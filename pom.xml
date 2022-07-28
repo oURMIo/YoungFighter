@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>groupId</groupId>
+    <artifactId>YoungFighter</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <modules>
+            <module>linkedList</module>
+            <module>zoo_Map-List</module>
+            <module>hashCodeBreak</module>
+            <module>equalsBreak</module>
+            <module>patternBridge</module>
+            <module>exampleDIP_SOLID</module>
+            <module>patternAdapter</module>
+            <module>patternFacade</module>
+            <module>abstractClass_Java</module>
+            <module>patternAbstractFactory</module>
+    </modules>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+    
+</project>
