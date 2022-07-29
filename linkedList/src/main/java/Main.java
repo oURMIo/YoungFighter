@@ -19,7 +19,7 @@ public class Main {
 
         list.printListAll();
         System.out.println("LIST SIZE = " + list.getSize());
-        list.delete(3);
+        list.delete(0);
         list.printListAll();
         System.out.println("LIST SIZE = " + list.getSize());
         list.printUnitById((int) (Math.random() * 8+1));
@@ -54,7 +54,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        oneList();
+//        oneList();
         doubleList();
 
     }

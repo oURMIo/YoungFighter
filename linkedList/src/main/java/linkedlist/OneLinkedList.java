@@ -6,8 +6,8 @@ public class OneLinkedList {
 
     public void add(Object obj) {
         Node newAll = new Node();
-        size++;
         newAll.id = size;
+        size++;
         newAll.val = obj;
         if (head == null) {
             head = newAll;
@@ -26,11 +26,14 @@ public class OneLinkedList {
         if (head == null) {   /*   IF LIST IS NULL   */
             return;
         }
-        if (head.id == id) {   /*   IF WE NEED FIRST   */
-            head = head.next;
+        if (id < 0) {
             return;
         }
-
+        if (head.id == id) {   /*   IF WE NEED FIRST   */
+            head = head.next;
+            size--;
+            return;
+        }
         Node find = head;
         while (find.next != null) {
             if (find.next.id == id) {
@@ -47,7 +50,7 @@ public class OneLinkedList {
     public void replacId() {
         Node time = head;
 
-        for (int i = 1; i <= size; i++) {
+        for (int i = 0; i < size; i++) {
             time.id = i;
             time = time.next;
         }

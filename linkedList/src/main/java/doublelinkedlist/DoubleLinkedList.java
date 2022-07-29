@@ -34,9 +34,12 @@ public class DoubleLinkedList {
         }
         if (head.id == id) {   /*   IF WE NEED FIRST   */
             head = head.next;
+            size--;
             return;
         }
-
+        if (id < 0) {
+            return;
+        }
         Node find = head;
         while (find.next != null) {
             if (find.next.id == id) {
@@ -53,7 +56,7 @@ public class DoubleLinkedList {
     public void replaceId() {
         Node time = head;
 
-        for (int i = 1; i <= size; i++) {
+        for (int i = 0; i < size; i++) {
             time.id = i;
             time = time.next;
         }

@@ -32,7 +32,7 @@ class OneLinkedListTest {
 
     @Test
     void delete2() {
-        var list = new DoubleLinkedList();
+        var list = new OneLinkedList();
         list.add("1");
         list.add("2");
         list.add("3");
