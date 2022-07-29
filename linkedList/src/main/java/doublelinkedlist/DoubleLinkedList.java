@@ -46,11 +46,11 @@ public class DoubleLinkedList {
             find = find.next;
         }
         size--;
-        replacId();
+        replaceId();
         System.out.printf("/////   YOU DELETE UNIT WITH ID = %s /////%n%n", id);
     }
 
-    public void replacId() {
+    public void replaceId() {
         Node time = head;
 
         for (int i = 1; i <= size; i++) {
@@ -91,6 +91,7 @@ public class DoubleLinkedList {
             head = prev;
         }
         //end reverse
+        replaceId();
         printListAll();
         //return old list
         System.out.printf("/////   CANSEL REVERSE    /////%n %n");
@@ -105,6 +106,7 @@ public class DoubleLinkedList {
         if (prev != null) {
             head = prev;
         }
+        replaceId();
     }
 
     public void printListBack() {
