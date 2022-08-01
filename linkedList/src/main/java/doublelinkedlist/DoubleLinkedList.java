@@ -139,6 +139,17 @@ public class DoubleLinkedList {
         System.out.println();
     }
 
+    public Object get(int id) {
+        Node currNode = head;
+        while (currNode != null) {
+            if (currNode.id == id) {
+                return currNode.val;
+            }
+            currNode = currNode.next;
+        }
+        return null;
+    }
+
     public int getSize() {
         return size;
     }
