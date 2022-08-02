@@ -1,6 +1,5 @@
 import doublelinkedlist.DoubleLinkedList;
 import linkedlist.OneLinkedList;
-import org.w3c.dom.Node;
 
 public class Main {
     private static void oneList() {
@@ -56,6 +55,5 @@ public class Main {
     public static void main(String[] args) {
         oneList();
         doubleList();
-
     }
 }
