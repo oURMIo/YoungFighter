@@ -51,5 +51,6 @@ class DoubleLinkedListTest {
         list.delete(-1);
         list.add("4");
         assertEquals(4, list.getSize());
+        assertTrue(list.isEmpty());
     }
 }

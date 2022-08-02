@@ -72,20 +72,17 @@ public class DoubleLinkedList {
         System.out.println();
     }
 
-    public void swap(Node node)
-    {
+    public void swap(Node node) {
         Node prev = node.prev;
         node.prev = node.next;
         node.next = prev;
     }
 
-    public void reverse()
-    {
+    public void reverse() {
         System.out.printf("%n/////   REVERSE    /////%n");
         Node prev = null;
         Node curr = head;
-        while (curr != null)
-        {
+        while (curr != null) {
             swap(curr);
             prev = curr;
             curr = curr.prev;
@@ -100,8 +97,7 @@ public class DoubleLinkedList {
         System.out.printf("/////   CANSEL REVERSE    /////%n %n");
         prev = null;
         curr = head;
-        while (curr != null)
-        {
+        while (curr != null) {
             swap(curr);
             prev = curr;
             curr = curr.prev;
@@ -113,7 +109,7 @@ public class DoubleLinkedList {
     }
 
     public void printListBack() {
-        if (isEmpty()){
+        if (isEmpty()) {
             return;
         }
         Node currNode = back;
@@ -126,7 +122,7 @@ public class DoubleLinkedList {
     }
 
     public void printUnitById(int id) {
-        if (isEmpty()){
+        if (isEmpty()) {
             return;
         }
         Node currNode = head;
