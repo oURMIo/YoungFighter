@@ -53,6 +53,7 @@ public class DoubleLinkedList {
         System.out.printf("/////   YOU DELETE UNIT WITH ID = %s /////%n%n", id);
     }
 
+
     public void replaceId() {
         Node time = head;
 
