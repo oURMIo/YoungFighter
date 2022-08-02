@@ -21,7 +21,7 @@ public class ElementListTest {
         }
     }
 
-    public static void printListAll() {
+    private static void printListAll() {
         ElementList currNode = head;
         while (currNode != null) {
             System.out.print("    " + currNode.value);
@@ -30,12 +30,46 @@ public class ElementListTest {
         System.out.println();
     }
 
+    private static void printAll(ElementList fir) {
+        ElementList currNode = fir;
+        System.out.print("PrintAll - ");
+        while (currNode != null) {
+            System.out.print("    " + currNode.value);
+            currNode = currNode.next;
+        }
+        System.out.println();
+    }
+
+    private static int getSize() {
+        ElementList currNode = head;
+        int i = 0;
+        while (currNode != null) {
+            i++;
+            currNode = currNode.next;
+        }
+        return i;
+    }
+
+    private static ElementList getUnit(int id) {
+        ElementList currNode = head;
+        int i = 0;
+        while (i != id) {
+            i++;
+            currNode = currNode.next;
+        }
+        return currNode;
+    }
+
     public static void main(String[] args) {
-        ElementList first = null;
-        ElementList last = null;
         for (int i = 0; i < 10; i++) {
             add(random());
         }
+        ElementList first = getUnit(0);
+        ElementList last = getUnit(9);
         printListAll();
+        System.out.println("size = " + getSize());
+
+        printAll(first);
+        printAll(last);
     }
 }

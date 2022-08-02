@@ -1,6 +1,6 @@
 class ElementList {
-    Object value;
-    ElementList next;
+    protected Object value;
+    protected ElementList next;
 
     ElementList() {
         next = null;
