@@ -40,6 +40,19 @@ public class ElementListTest {
         System.out.println();
     }
 
+    private static ElementList reverse(ElementList fir) {
+        System.out.printf("%n/////   REVERSE   /////%n");
+        ElementList prev = null;
+        ElementList curr = fir;
+        while (curr != null) {
+            ElementList next = curr.getNext();
+            curr.setNext(prev);
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+
     public static void main(String[] args) {
         ElementList first = null;
         ElementList last = null;
@@ -55,5 +68,16 @@ public class ElementListTest {
 
         printAll(first);
         printAll(last);
+
+        last = first;
+        first = reverse(first);
+        printAll(first);
+        printAll(last);
+
+        last = first;
+        first = reverse(first);
+        printAll(first);
+        printAll(last);
+
     }
 }
