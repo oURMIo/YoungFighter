@@ -1,16 +1,13 @@
 public class ElementListTest {
-    static ElementList first;
-    static ElementList last;
-
     private static int random() {
         return (int) (Math.random() * 100 - Math.random() * 50);
     }
 
-    private static void add(Object obj) {
+    private static ElementList add(Object obj, ElementList first) {
         ElementList newAll = new ElementList();
         newAll.setValue(obj);
         if (first == null) {
-            first = newAll;
+            return newAll;
         } else {
             ElementList endList = first;
             ElementList preEndList = first;
@@ -20,18 +17,10 @@ public class ElementListTest {
             }
             preEndList.setNext(newAll);
         }
+        return newAll;
     }
 
-    private static void printListAll() {
-        ElementList currNode = first;
-        while (currNode != null) {
-            System.out.print("    " + currNode.getValue());
-            currNode = currNode.getNext();
-        }
-        System.out.println();
-    }
-
-    private static int getSize() {
+    private static int getSize(ElementList first) {
         ElementList currNode = first;
         int i = 0;
         while (currNode != null) {
@@ -39,26 +28,6 @@ public class ElementListTest {
             currNode = currNode.getNext();
         }
         return i;
-    }
-
-    private static ElementList getUnit(int id) {
-        ElementList currNode = first;
-        int i = 0;
-        while (i !=id) {
-            i++;
-            currNode = currNode.getNext();
-        }
-        return currNode;
-    }
-
-    private static ElementList getLastUnit() {
-        ElementList currNode = first;
-        ElementList precurrNode = null;
-        while (currNode != null) {
-            precurrNode = currNode;
-            currNode = currNode.getNext();
-        }
-        return precurrNode;
     }
 
     private static void printAll(ElementList fir) {
@@ -72,15 +41,18 @@ public class ElementListTest {
     }
 
     public static void main(String[] args) {
+        ElementList first = null;
+        ElementList last = null;
         boolean fir = true;
         for (int i = 0; i < 10; i++) {
-            add(random());
-            if (fir){
-                first = getLastUnit();
+            last = add(random(), last);
+            if (fir) {
+                first = last;
                 fir = false;
             }
-            last = getLastUnit();
         }
+        System.out.println("list size = " + getSize(first));
+
         printAll(first);
         printAll(last);
     }
