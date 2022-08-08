@@ -1,12 +1,9 @@
-public class ElementListTest {
-    static ElementList first;
-    static ElementList last;
-
+public class ElementListTest2 {
     private static int random() {
         return (int) (Math.random() * 100 - Math.random() * 50);
     }
 
-    private static void add(Object obj) {
+    private static ElementList add(Object obj,ElementList first) {
         ElementList newAll = new ElementList();
         newAll.setValue(obj);
         if (first == null) {
@@ -20,9 +17,10 @@ public class ElementListTest {
             }
             preEndList.setNext(newAll);
         }
+        return first;
     }
 
-    private static void printListAll() {
+    private static void printListAll(ElementList first) {
         ElementList currNode = first;
         while (currNode != null) {
             System.out.print("    " + currNode.getValue());
@@ -31,7 +29,7 @@ public class ElementListTest {
         System.out.println();
     }
 
-    private static int getSize() {
+    private static int getSize(ElementList first) {
         ElementList currNode = first;
         int i = 0;
         while (currNode != null) {
@@ -41,7 +39,7 @@ public class ElementListTest {
         return i;
     }
 
-    private static ElementList getUnit(int id) {
+    private static ElementList getUnit(int id,ElementList first) {
         ElementList currNode = first;
         int i = 0;
         while (i !=id) {
@@ -51,7 +49,7 @@ public class ElementListTest {
         return currNode;
     }
 
-    private static ElementList getLastUnit() {
+    private static ElementList getLastUnit(ElementList first) {
         ElementList currNode = first;
         ElementList precurrNode = null;
         while (currNode != null) {
@@ -72,15 +70,20 @@ public class ElementListTest {
     }
 
     public static void main(String[] args) {
+        ElementList first = null;
+        ElementList last = null;
         boolean fir = true;
         for (int i = 0; i < 10; i++) {
-            add(random());
+            add(random(),first);
             if (fir){
-                first = getLastUnit();
+                first = getLastUnit(first);
                 fir = false;
             }
-            last = getLastUnit();
+            last = getLastUnit(first);
         }
+        System.out.println(getSize(first));
+        printListAll(first);
+
         printAll(first);
         printAll(last);
     }
