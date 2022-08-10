@@ -11,6 +11,7 @@
     <modules>
             <module>linkedList</module>
             <module>linkedListV2</module>
+            <module>linkedListMore</module>
             <module>zoo_Map-List</module>
             <module>hashCodeBreak</module>
             <module>equalsBreak</module>
