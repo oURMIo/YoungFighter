@@ -5,7 +5,6 @@ public class MyList implements List {
     private MyList next;
 
     private int id;
-
     private int size;
     private MyList head;
 
@@ -17,10 +16,6 @@ public class MyList implements List {
 
     public Object getValue() {
         return value;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public void setValue(Object value) {
@@ -35,7 +30,28 @@ public class MyList implements List {
         this.next = next;
     }
 
-    /*   done    */
+    public void replaceId() {
+        MyList time = head;
+        for (int i = 0; i < size; i++) {
+            time.id = i;
+            time = time.next;
+        }
+    }
+
+    public void reverse() {
+        MyList prev = null;
+        MyList current = head;
+        MyList next;
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        head = prev;
+        replaceId();
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -47,7 +63,6 @@ public class MyList implements List {
         return result.toString();
     }
 
-    /*   done    */
     @Override
     public boolean add(Object o) {
         MyList newAll = new MyList();
@@ -68,7 +83,6 @@ public class MyList implements List {
         return true;
     }
 
-    /*   done    */
     @Override
     public boolean remove(Object o) {
         if (isEmpty()) {
@@ -90,19 +104,16 @@ public class MyList implements List {
         return true;
     }
 
-    /*   done    */
     @Override
     public int size() {
         return size;
     }
 
-    /*   done    */
     @Override
     public boolean isEmpty() {
         return size() == 0;
     }
 
-    /*   done    */
     @Override
     public Object get(int index) {
         MyList curr = head;
@@ -116,14 +127,12 @@ public class MyList implements List {
         return time;
     }
 
-    /*   done    */
     @Override
     public Object remove(int index) {
-        Object time = null;
         if (isEmpty()) {
-//            return time;
-            return false;
+            return null;
         }
+        Object time = null;
         if (head.id == index) {
             time = head.getValue();
             head = head.next;
@@ -143,31 +152,6 @@ public class MyList implements List {
         return time;
     }
 
-    /*  COSTUL  */
-    public void replaceId() {
-        MyList time = head;
-        for (int i = 0; i < size; i++) {
-            time.id = i;
-            time = time.next;
-        }
-    }
-
-    /*   done    */
-    public void reverse() {
-        MyList prev = null;
-        MyList current = head;
-        MyList next;
-        while (current != null) {
-            next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-        }
-        head = prev;
-        replaceId();
-    }
-
-    /*   done    */
     @Override
     public void add(int index, Object element) {
         if (index > size) {
@@ -194,7 +178,6 @@ public class MyList implements List {
         replaceId();
     }
 
-    /*   done    */
     @Override
     public boolean contains(Object o) {
         if (isEmpty()) {
@@ -210,13 +193,6 @@ public class MyList implements List {
         return false;
     }
 
-    /*!!!   question    */
-    @Override
-    public Iterator iterator() {
-        return null;
-    }
-
-    /*   done    */
     @Override
     public Object[] toArray() {
         Object[] mas = new Object[size];
@@ -235,6 +211,78 @@ public class MyList implements List {
     }
 
     @Override
+    public Object[] toArray(Object[] a) {
+        if (isEmpty()) {
+            System.out.println("List is empty");
+            return a;
+        }
+        MyList curr = head;
+        int i = 0;
+        while (curr != null) {
+            a[i] = curr;
+            i++;
+            curr = curr.next;
+        }
+        return a;
+    }
+
+    @Override
+    public Object set(int index, Object element) {
+        if (isEmpty()) {
+            return null;
+        }
+        Object time = null;
+        MyList curr = head;
+        while (curr != null) {
+            if (curr.id == index) {
+                time = curr.getValue();
+                curr.value = element;
+            }
+            curr = curr.next;
+        }
+        return time;
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        int i = -1;
+        if (isEmpty()) {
+            return i;
+        }
+        MyList curr = head;
+        while (curr != null) {
+            if (curr.getValue() == o) {
+                i = curr.id;
+                return i;
+            }
+            curr = curr.next;
+        }
+        return i;
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        int i = -1;
+        if (isEmpty()) {
+            return i;
+        }
+        MyList curr = head;
+        while (curr != null) {
+            if (curr.getValue() == o) {
+                i = curr.id;
+            }
+            curr = curr.next;
+        }
+        return i;
+    }
+
+/*
+    /////////////////////////////
+    /////////   done    /////////
+    /////////////////////////////
+*/
+
+    @Override
     public boolean addAll(Collection c) {
         return false;
     }
@@ -250,23 +298,13 @@ public class MyList implements List {
         head.next = null;
         head.setValue(null);
 //        head.setId(null);
-        size=0;
+        size = 0;
     }
 
+    /*!!!   question    */
     @Override
-    public Object set(int index, Object element) {
+    public Iterator iterator() {
         return null;
-    }
-
-
-    @Override
-    public int indexOf(Object o) {
-        return 0;
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        return 0;
     }
 
     @Override
@@ -297,10 +335,5 @@ public class MyList implements List {
     @Override
     public boolean containsAll(Collection c) {
         return false;
-    }
-
-    @Override
-    public Object[] toArray(Object[] a) {
-        return new Object[0];
     }
 }
