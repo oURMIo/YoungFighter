@@ -1,4 +1,5 @@
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class TestZone {
     private static int random() {
@@ -11,25 +12,21 @@ public class TestZone {
         String l = "lolo";
         list.add(random());
         list.add(l);
-        list.add(random());
+        list.add(55);
         list.add("toto");
         list.add(random());
+        list.add(random());
+        list.add(random());
         list.add(l);
-        System.out.println("list = " + list.toString());
-        System.out.println("list = " + list2.toString());
-
-        System.out.println(list.indexOf(l));
-        System.out.println(list.indexOf("toto"));
-        System.out.println(list.indexOf("t"));
-
-        /*
-        list.clear();
-        System.out.println("list = " + list.toString());
-
-        list.add(random());
         list.add(random());
         System.out.println("list = " + list.toString());
-*/
+//        System.out.println("list2 = " + list2.toString());
+
+        ArrayList<Object> c = new ArrayList<Object>();
+        Collections.addAll(c, 1,2,3,"lolo");
+
+        list.retainAll(c);
+        System.out.println("list = " + list.toString());
 
 
     }

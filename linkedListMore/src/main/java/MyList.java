@@ -32,7 +32,7 @@ public class MyList implements List {
 
     public void replaceId() {
         MyList time = head;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size + 1; i++) {
             time.id = i;
             time = time.next;
         }
@@ -57,7 +57,9 @@ public class MyList implements List {
         StringBuilder result = new StringBuilder();
         MyList curr = head;
         while (curr != null) {
-            result.append(curr.id).append(" = ").append(curr.getValue()).append("\t");
+            if (curr.getValue() != null) {
+                result.append(curr.id).append(" = ").append(curr.getValue()).append("\t");
+            }
             curr = curr.next;
         }
         return result.toString();
@@ -101,6 +103,7 @@ public class MyList implements List {
             find = find.next;
         }
         size--;
+        replaceId();
         return true;
     }
 
@@ -276,6 +279,56 @@ public class MyList implements List {
         return i;
     }
 
+    @Override
+    public boolean addAll(Collection c) {
+        for (Object curr : c) {
+            add(curr);
+        }
+        return true;
+    }
+
+    @Override
+    public void clear() {
+        head.next = null;
+        head.setValue(null);
+        size = 0;
+        id = 0;
+        next = null;
+        value = null;
+    }
+
+    @Override
+    public boolean removeAll(Collection c) {
+        if (isEmpty()) {
+            return false;
+        }
+        for (Object curr : c) {
+            remove(curr);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean addAll(int index, Collection c) {
+        int i = 0;
+        for (Object curr : c) {
+            add(index + (i++), curr);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean containsAll(Collection c) {
+        boolean fir = true;
+        for (Object curr : c) {
+            if (!fir) {
+                return false;
+            }
+            fir = contains(curr);
+        }
+        return fir;
+    }
+
 /*
     /////////////////////////////
     /////////   done    /////////
@@ -283,28 +336,14 @@ public class MyList implements List {
 */
 
     @Override
-    public boolean addAll(Collection c) {
-        return false;
-    }
-
-    @Override
-    public boolean addAll(int index, Collection c) {
-        return false;
-    }
-
-    /*!!!   question    */
-    @Override
-    public void clear() {
-        head.next = null;
-        head.setValue(null);
-//        head.setId(null);
-        size = 0;
-    }
-
-    /*!!!   question    */
-    @Override
     public Iterator iterator() {
-        return null;
+        Iterator<String> iter = null;
+        MyList find = head;
+        while (find != null) {
+
+            find = find.next;
+        }
+        return iter;
     }
 
     @Override
@@ -324,16 +363,21 @@ public class MyList implements List {
 
     @Override
     public boolean retainAll(Collection c) {
-        return false;
+        if (isEmpty()) {
+            return false;
+        }
+        MyList find = head;
+        while (find != null) {
+            for (Object curr : c) {
+                if (curr != find.getValue()) {
+                    remove(find.id);
+                }
+            }
+            find = find.next;
+        }
+        replaceId();
+        System.out.println(size);
+        return true;
     }
 
-    @Override
-    public boolean removeAll(Collection c) {
-        return false;
-    }
-
-    @Override
-    public boolean containsAll(Collection c) {
-        return false;
-    }
 }
