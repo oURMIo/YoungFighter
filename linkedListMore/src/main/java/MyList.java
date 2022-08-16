@@ -1,50 +1,25 @@
 import java.util.*;
 
 public class MyList implements List {
-    private Object value;
-    private MyList next;
 
-    private int id;
     private int size;
-    private MyList head;
-
-    MyList() {
-        id = 0;
-        next = null;
-        value = null;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
-    }
-
-    public MyList getNext() {
-        return next;
-    }
-
-    public void setNext(MyList next) {
-        this.next = next;
-    }
+    private Unit head;
 
     public void replaceId() {
-        MyList time = head;
-        for (int i = 0; i < size + 1; i++) {
-            time.id = i;
-            time = time.next;
+        Unit time = head;
+        for (int i = 0; i < size; i++) {
+            time.setId(i);
+            time = time.getNext();
         }
     }
 
     public void reverse() {
-        MyList prev = null;
-        MyList current = head;
-        MyList next;
+        Unit prev = null;
+        Unit current = head;
+        Unit next;
         while (current != null) {
-            next = current.next;
-            current.next = prev;
+            next = current.getNext();
+            current.setNext(prev);
             prev = current;
             current = next;
         }
@@ -52,35 +27,51 @@ public class MyList implements List {
         replaceId();
     }
 
+    public boolean unRetainAll(Collection c) {
+        if (isEmpty()) {
+            return false;
+        }
+        Unit find = head;
+        while (find != null) {
+            for (Object curr : c) {
+                if (curr == find.getValue()) {
+                    remove(curr);
+                }
+            }
+            find = find.getNext();
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        MyList curr = head;
+        Unit curr = head;
         while (curr != null) {
             if (curr.getValue() != null) {
-                result.append(curr.id).append(" = ").append(curr.getValue()).append("\t");
+                result.append(curr.getId()).append(" = ").append(curr.getValue()).append("\t");
             }
-            curr = curr.next;
+            curr = curr.getNext();
         }
         return result.toString();
     }
 
     @Override
     public boolean add(Object o) {
-        MyList newAll = new MyList();
-        newAll.id = size;
+        Unit newAll = new Unit();
+        newAll.setId(size);
         size++;
-        newAll.value = o;
+        newAll.setValue(o);
         if (head == null) {
             head = newAll;
         } else {
-            MyList endList = head;
-            MyList preEndList = head;
+            Unit endList = head;
+            Unit preEndList = head;
             while (endList != null) {
                 preEndList = endList;
-                endList = endList.next;
+                endList = endList.getNext();
             }
-            preEndList.next = newAll;
+            preEndList.setNext(newAll);
         }
         return true;
     }
@@ -90,19 +81,19 @@ public class MyList implements List {
         if (isEmpty()) {
             return false;
         }
-        if (head.value == o) {   /*   IF WE NEED FIRST   */
-            head = head.next;
+        if (head.getValue() == o) {   /*   IF WE NEED FIRST   */
+            head = head.getNext();
             size--;
             return true;
         }
-        MyList find = head;
-        while (find.next != null) {
-            if (find.next.value == o) {
-                find.next = find.next.next;
+        Unit find = head;
+        while (find.getNext() != null) {
+            if (find.getNext().getValue() == o) {
+                find.setNext(find.getNext().getNext());
+                size--;
             }
-            find = find.next;
+            find = find.getNext();
         }
-        size--;
         replaceId();
         return true;
     }
@@ -117,15 +108,27 @@ public class MyList implements List {
         return size() == 0;
     }
 
-    @Override
-    public Object get(int index) {
-        MyList curr = head;
+    public Object getVal(int index) {
+        Unit curr = head;
         Object time = null;
         while (curr != null) {
-            if (curr.id == index) {
+            if (curr.getId() == index) {
                 time = curr.getValue();
             }
-            curr = curr.next;
+            curr = curr.getNext();
+        }
+        return time;
+    }
+
+    @Override
+    public Unit get(int index) {
+        Unit curr = head;
+        Unit time = null;
+        while (curr != null) {
+            if (curr.getId() == index) {
+                time = curr;
+            }
+            curr = curr.getNext();
         }
         return time;
     }
@@ -136,19 +139,19 @@ public class MyList implements List {
             return null;
         }
         Object time = null;
-        if (head.id == index) {
+        if (head.getId() == index) {
             time = head.getValue();
-            head = head.next;
+            head = head.getNext();
             size--;
             return time;
         }
-        MyList find = head;
-        while (find.next != null) {
-            if (find.next.id == index) {
+        Unit find = head;
+        while (find.getNext() != null) {
+            if (find.getNext().getId() == index) {
                 time = find.getValue();
-                find.next = find.next.next;
+                find.setNext(find.getNext().getNext());
             }
-            find = find.next;
+            find = find.getNext();
         }
         size--;
         replaceId();
@@ -160,23 +163,23 @@ public class MyList implements List {
         if (index > size) {
             return;
         }
-        MyList newAll = new MyList();
-        newAll.id = index;
-        newAll.value = element;
+        Unit newAll = new Unit();
+        newAll.setId(index);
+        newAll.setValue(element);
         size++;
         if (head == null) {
             head = newAll;
         } else {
             int i = 0;
-            MyList endList = head;
-            MyList preEndList = head;
+            Unit endList = head;
+            Unit preEndList = head;
             while (i != index) {
                 preEndList = endList;
-                newAll.next = endList.next;
-                endList = endList.next;
+                newAll.setNext(endList.getNext());
+                endList = endList.getNext();
                 i++;
             }
-            preEndList.next = newAll;
+            preEndList.setNext(newAll);
         }
         replaceId();
     }
@@ -186,12 +189,12 @@ public class MyList implements List {
         if (isEmpty()) {
             return false;
         }
-        MyList curr = head;
+        Unit curr = head;
         while (curr != null) {
             if (curr.getValue() == o) {
                 return true;
             }
-            curr = curr.next;
+            curr = curr.getNext();
         }
         return false;
     }
@@ -203,12 +206,12 @@ public class MyList implements List {
             System.out.println("List is empty");
             return mas;
         }
-        MyList curr = head;
+        Unit curr = head;
         int i = 0;
         while (curr != null) {
             mas[i] = curr;
             i++;
-            curr = curr.next;
+            curr = curr.getNext();
         }
         return mas;
     }
@@ -219,12 +222,12 @@ public class MyList implements List {
             System.out.println("List is empty");
             return a;
         }
-        MyList curr = head;
+        Unit curr = head;
         int i = 0;
         while (curr != null) {
             a[i] = curr;
             i++;
-            curr = curr.next;
+            curr = curr.getNext();
         }
         return a;
     }
@@ -235,13 +238,13 @@ public class MyList implements List {
             return null;
         }
         Object time = null;
-        MyList curr = head;
+        Unit curr = head;
         while (curr != null) {
-            if (curr.id == index) {
+            if (curr.getId() == index) {
                 time = curr.getValue();
-                curr.value = element;
+                curr.setValue(element);
             }
-            curr = curr.next;
+            curr = curr.getNext();
         }
         return time;
     }
@@ -252,13 +255,13 @@ public class MyList implements List {
         if (isEmpty()) {
             return i;
         }
-        MyList curr = head;
+        Unit curr = head;
         while (curr != null) {
             if (curr.getValue() == o) {
-                i = curr.id;
+                i = curr.getId();
                 return i;
             }
-            curr = curr.next;
+            curr = curr.getNext();
         }
         return i;
     }
@@ -269,12 +272,12 @@ public class MyList implements List {
         if (isEmpty()) {
             return i;
         }
-        MyList curr = head;
+        Unit curr = head;
         while (curr != null) {
             if (curr.getValue() == o) {
-                i = curr.id;
+                i = curr.getId();
             }
-            curr = curr.next;
+            curr = curr.getNext();
         }
         return i;
     }
@@ -289,12 +292,10 @@ public class MyList implements List {
 
     @Override
     public void clear() {
-        head.next = null;
+        head.setNext(null);
         head.setValue(null);
         size = 0;
-        id = 0;
-        next = null;
-        value = null;
+        head.setId(0);
     }
 
     @Override
@@ -329,25 +330,99 @@ public class MyList implements List {
         return fir;
     }
 
-/*
-    /////////////////////////////
-    /////////   done    /////////
-    /////////////////////////////
-*/
+    private class ListItr implements Iterator<Object> {
+        private Unit lastReturned;
+        private Unit next;
+        private int nextIndex;
+//        private int expectedModCount = modCount;
+
+        ListItr(int index) {
+            // assert isPositionIndex(index);
+            next = (index == size) ? null : head;
+            nextIndex = index;
+        }
+
+        public boolean hasNext() {
+            return nextIndex < size;
+        }
+
+        public Object next() {
+            if (!hasNext())
+                throw new NoSuchElementException();
+
+            lastReturned = next;
+            next = next.getNext();
+            nextIndex++;
+            return lastReturned.getValue();
+        }
+
+        /*  New things  */
+
+        Unit prev;
+        transient Unit last;
+        transient Unit first;
+
+/*        void linkLast(Object e) {
+            final Unit l = last;
+            final Unit newNode = new Unit();
+            last = newNode;
+            if (l == null)
+                first = newNode;
+            else
+                l.setNext(newNode);
+            size++;
+//            modCount++;
+        }
+
+        void linkBefore(Object e, Unit succ) {
+            // assert succ != null;
+            final Unit pred = succ.prev;
+            final Unit newNode = new Unit();
+            succ.prev = newNode;
+            if (pred == null)
+                first = newNode;
+            else
+                pred.setNext(newNode);
+            size++;
+//            modCount++;
+        }
+
+        public void add(Object e) {
+            lastReturned = null;
+            if (next == null)
+                linkLast(e);
+            else
+                linkBefore(e, next);
+            nextIndex++;
+        }*/
+    }
+
 
     @Override
     public Iterator iterator() {
-        Iterator<String> iter = null;
-        MyList find = head;
-        while (find != null) {
-
-            find = find.next;
-        }
-        return iter;
+        return new ListItr(0);
     }
 
     @Override
+    public List subList(int fromIndex, int toIndex) {
+        MyList newline = new MyList();
+        Unit curr = get(fromIndex);
+        while (curr != get(toIndex)) {
+            newline.add(curr.getValue());
+            curr = curr.getNext();
+        }
+        return newline;
+    }
+
+    /*
+        /////////////////////////////
+        /////////   done    /////////
+        /////////////////////////////
+    */
+
+    @Override
     public ListIterator listIterator() {
+        ListItr newlist = new ListItr(0);
         return null;
     }
 
@@ -357,27 +432,19 @@ public class MyList implements List {
     }
 
     @Override
-    public List subList(int fromIndex, int toIndex) {
-        return null;
-    }
-
-    @Override
     public boolean retainAll(Collection c) {
         if (isEmpty()) {
             return false;
         }
-        MyList find = head;
-        while (find != null) {
-            for (Object curr : c) {
-                if (curr != find.getValue()) {
-                    remove(find.id);
-                }
+        boolean changed = false;
+        for (int i = size() - 1; i >= 0; i--) {
+            Object obj = get(i);
+            if (!contains(obj)) {
+                remove(i);
+                changed = true;
             }
-            find = find.next;
         }
-        replaceId();
-        System.out.println(size);
-        return true;
+        return changed;
     }
 
 }
