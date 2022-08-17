@@ -43,6 +43,18 @@ public class MyList implements List {
         return true;
     }
 
+    public Object getVal(int index) {
+        Unit curr = head;
+        Object time = null;
+        while (curr != null) {
+            if (curr.getId() == index) {
+                time = curr.getValue();
+            }
+            curr = curr.getNext();
+        }
+        return time;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -106,18 +118,6 @@ public class MyList implements List {
     @Override
     public boolean isEmpty() {
         return size() == 0;
-    }
-
-    public Object getVal(int index) {
-        Unit curr = head;
-        Object time = null;
-        while (curr != null) {
-            if (curr.getId() == index) {
-                time = curr.getValue();
-            }
-            curr = curr.getNext();
-        }
-        return time;
     }
 
     @Override
@@ -338,7 +338,8 @@ public class MyList implements List {
 
         ListItr(int index) {
             // assert isPositionIndex(index);
-            next = (index == size) ? null : head;
+            if (index == size) next = null;
+            else next = head;
             nextIndex = index;
         }
 
@@ -349,54 +350,122 @@ public class MyList implements List {
         public Object next() {
             if (!hasNext())
                 throw new NoSuchElementException();
+            lastReturned = next;
+            next = next.getNext();
+            nextIndex++;
+            return lastReturned.getValue();
+        }
+    }
 
+    private class ListItr002 implements ListIterator<Object> {
+        private Unit lastReturned;
+        private Unit next;
+        private Unit prev;
+        private int nextIndex;
+        private Unit last;
+
+        public ListItr002(int index) {
+            if (index == size) next = null;
+            else next = head;
+            nextIndex = index;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return nextIndex < size;
+        }
+
+        @Override
+        public Object next() {
+            if (!hasNext())
+                throw new NoSuchElementException();
             lastReturned = next;
             next = next.getNext();
             nextIndex++;
             return lastReturned.getValue();
         }
 
-        /*  New things  */
+        @Override
+        public boolean hasPrevious() {
+            return nextIndex > 0;
+        }
 
-        Unit prev;
-        transient Unit last;
-        transient Unit first;
+        @Override
+        public Object previous() {
+            if (!hasPrevious())
+                throw new NoSuchElementException();
 
-/*        void linkLast(Object e) {
+            if (next == null) lastReturned = next = last;
+            else lastReturned = next = next.getPrev();
+            nextIndex--;
+            return lastReturned.getValue();
+        }
+
+        @Override
+        public int nextIndex() {
+            return nextIndex;
+        }
+
+        @Override
+        public int previousIndex() {
+            return nextIndex - 1;
+        }
+
+        @Override
+        public void remove() {
+            if (lastReturned == null)
+                throw new IllegalStateException();
+
+            Unit lastNext = lastReturned.getNext();
+//            unlink(lastReturned);
+            if (next == lastReturned)
+                next = lastNext;
+            else
+                nextIndex--;
+            lastReturned = null;
+        }
+
+        @Override
+        public void set(Object o) {
+            if (lastReturned == null)
+                throw new IllegalStateException();
+            lastReturned.setValue(o);
+        }
+
+        void linkLast(Object o) {
             final Unit l = last;
             final Unit newNode = new Unit();
+            newNode.setValue(o);
             last = newNode;
             if (l == null)
-                first = newNode;
+                head = newNode;
             else
                 l.setNext(newNode);
             size++;
-//            modCount++;
         }
 
         void linkBefore(Object e, Unit succ) {
             // assert succ != null;
-            final Unit pred = succ.prev;
+            final Unit pred = succ.getPrev();
             final Unit newNode = new Unit();
-            succ.prev = newNode;
+            succ.setPrev(newNode);
             if (pred == null)
-                first = newNode;
+                head = newNode;
             else
                 pred.setNext(newNode);
             size++;
-//            modCount++;
         }
 
-        public void add(Object e) {
+        @Override
+        public void add(Object o) {
             lastReturned = null;
             if (next == null)
-                linkLast(e);
+                linkLast(o);
             else
-                linkBefore(e, next);
+                linkBefore(o, next);
             nextIndex++;
-        }*/
+        }
     }
-
 
     @Override
     public Iterator iterator() {
@@ -422,8 +491,7 @@ public class MyList implements List {
 
     @Override
     public ListIterator listIterator() {
-        ListItr newlist = new ListItr(0);
-        return null;
+        return new ListItr002(0);
     }
 
     @Override
