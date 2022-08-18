@@ -363,6 +363,7 @@ public class MyList implements List {
         private Unit prev;
         private int nextIndex;
         private Unit last;
+        private Unit first;
 
         public ListItr002(int index) {
             if (index == size) next = null;
@@ -411,13 +412,38 @@ public class MyList implements List {
             return nextIndex - 1;
         }
 
+        private Object unlink(Unit x) {
+            // assert x != null;
+            final Object element = x.getValue();
+            final Unit next = x.getNext();
+            final Unit prev = x.getPrev();
+
+            if (prev == null) {
+                first = next;
+            } else {
+                prev.setNext(next);
+                x.setPrev(null);
+            }
+
+            if (next == null) {
+                last = prev;
+            } else {
+                next.setPrev(prev);
+                x.setNext(null);
+            }
+
+            x.setValue(null);
+            size--;
+//            modCount++;
+            return element;
+        }
+
         @Override
         public void remove() {
             if (lastReturned == null)
                 throw new IllegalStateException();
-
             Unit lastNext = lastReturned.getNext();
-//            unlink(lastReturned);
+            unlink(lastReturned);
             if (next == lastReturned)
                 next = lastNext;
             else
@@ -496,7 +522,7 @@ public class MyList implements List {
 
     @Override
     public ListIterator listIterator(int index) {
-        return null;
+        return new ListItr002(index);
     }
 
     @Override

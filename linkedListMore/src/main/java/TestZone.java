@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 public class TestZone {
     private static int random() {
@@ -21,25 +22,16 @@ public class TestZone {
         list.add(random());
         System.out.println("list = " + list);
 
-/*        for (Iterator iterator = list.iterator(); iterator.hasNext(); ) {
-            Object next = iterator.next();
+        for (Iterator iterator = list.listIterator(); iterator.hasNext(); ) {
+            Object next = (Object) iterator.next();
             System.out.println(next);
-        }*/
-        list.iterator();
-        for (Object o : list) {
-            System.out.println(o);
         }
-/*
-        ArrayList<Object> c = new ArrayList<>();
-        Collections.addAll(c, l,"toto",55,4,3,4,5);
-        System.out.println(c);
 
-        list.retainAll(c);
-        System.out.println("list = " + list.toString());
-        System.out.println(list.size());
-*/
-
-
+        System.out.println("////////////");
+        for (ListIterator iterator = list.listIterator(list.size()); iterator.hasPrevious(); ) {
+            Object prev = (Object) iterator.previous();
+            System.out.println(prev);
+        }
 
     }
 }
