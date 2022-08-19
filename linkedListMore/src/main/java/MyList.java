@@ -509,6 +509,33 @@ public class MyList implements List {
         return newline;
     }
 
+    @Override
+    public boolean retainAll(Collection c) {
+        if (isEmpty()) {
+            return false;
+        }
+        MyList time = new MyList();
+        Unit curr = head;
+        int timeSize = 0;
+        while (curr != null) {
+            for (Object o : c) {
+                if (curr.getValue() == o) {
+                    time.add(curr.getValue());
+                    timeSize++;
+                }
+            }
+            curr = curr.getNext();
+        }
+        System.out.println(time);
+        clear();
+        head = time.get(0);
+        size = timeSize;
+        if (isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
     /*
         /////////////////////////////
         /////////   done    /////////
@@ -523,27 +550,6 @@ public class MyList implements List {
     @Override
     public ListIterator listIterator(int index) {
         return new ListItr002(index);
-    }
-
-    @Override
-    public boolean retainAll(Collection c) {
-        if (isEmpty()) {
-            return false;
-        }
-        MyList time = new MyList();
-        Unit curr = head;
-        while (curr != null) {
-            for (Object o : c) {
-                if (curr.getValue() == o) {
-                    time.add(curr.getValue());
-                }
-            }
-            curr = curr.getNext();
-        }
-        System.out.println(time);
-        clear();
-
-        return true;
     }
 
 }

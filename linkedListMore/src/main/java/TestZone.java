@@ -20,11 +20,14 @@ public class TestZone {
         list.add(random());
         System.out.println("list = " + list);
 
+/*
         ArrayList<Object> col = new ArrayList<>(Arrays.asList(1, 2, 3, l, 55));
         System.out.println("Collection = "+col);
         list.retainAll(col);
-//        System.out.println("list = " + list);
-/*
+        System.out.println("list = " + list);
+        System.out.println(list.size());
+        */
+
         for (Iterator iterator = list.listIterator(); iterator.hasNext(); ) {
             Object next = (Object) iterator.next();
             System.out.println(next);
@@ -35,7 +38,6 @@ public class TestZone {
             Object prev = (Object) iterator.previous();
             System.out.println(prev);
         }
-*/
 
     }
 }
