@@ -1,6 +1,4 @@
 class Unit {
-
-
     private int id;
     private Object value;
     private Unit next;
@@ -45,5 +43,7 @@ class Unit {
         id = 0;
         next = null;
         value = null;
+        /*  FOR ListIterator*/
+        prev = null;
     }
 }

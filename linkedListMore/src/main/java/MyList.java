@@ -471,14 +471,14 @@ public class MyList implements List {
         }
 
         void linkBefore(Object e, Unit succ) {
-            // assert succ != null;
             final Unit pred = succ.getPrev();
             final Unit newNode = new Unit();
+            newNode.setValue(e);
             succ.setPrev(newNode);
             if (pred == null)
                 head = newNode;
             else
-                pred.setNext(newNode);
+                prev.setNext(newNode);
             size++;
         }
 
@@ -530,15 +530,20 @@ public class MyList implements List {
         if (isEmpty()) {
             return false;
         }
-        boolean changed = false;
-        for (int i = size() - 1; i >= 0; i--) {
-            Object obj = get(i);
-            if (!contains(obj)) {
-                remove(i);
-                changed = true;
+        MyList time = new MyList();
+        Unit curr = head;
+        while (curr != null) {
+            for (Object o : c) {
+                if (curr.getValue() == o) {
+                    time.add(curr.getValue());
+                }
             }
+            curr = curr.getNext();
         }
-        return changed;
+        System.out.println(time);
+        clear();
+
+        return true;
     }
 
 }
