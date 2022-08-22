@@ -86,6 +86,7 @@ public class MyList implements List {
             }
             preEndList.setNext(newAll);
         }
+        last = newAll;
         return true;
     }
 
