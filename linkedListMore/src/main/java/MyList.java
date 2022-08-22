@@ -4,6 +4,7 @@ public class MyList implements List {
 
     private int size;
     private Unit head;
+    private Unit last;
 
     public void replaceId() {
         Unit time = head;
@@ -181,6 +182,7 @@ public class MyList implements List {
             }
             preEndList.setNext(newAll);
         }
+        last = newAll;
         replaceId();
     }
 
@@ -460,26 +462,29 @@ public class MyList implements List {
 
         void linkLast(Object o) {
             final Unit l = last;
-            final Unit newNode = new Unit();
-            newNode.setValue(o);
-            last = newNode;
-            if (l == null)
-                head = newNode;
-            else
-                l.setNext(newNode);
+            final Unit newUnit = new Unit();
+            newUnit.setValue(o);
+            last = newUnit;
+            if (l == null) {
+                head = newUnit;
+            } else {
+                l.setNext(newUnit);
+            }
             size++;
+            last = newUnit;
         }
 
         void linkBefore(Object e, Unit succ) {
             final Unit pred = succ.getPrev();
-            final Unit newNode = new Unit();
-            newNode.setValue(e);
-            succ.setPrev(newNode);
+            final Unit newUnit = new Unit();
+            newUnit.setValue(e);
+            succ.setPrev(newUnit);
             if (pred == null)
-                head = newNode;
+                head = newUnit;
             else
-                prev.setNext(newNode);
+                prev.setNext(newUnit);
             size++;
+            last = newUnit;
         }
 
         @Override
