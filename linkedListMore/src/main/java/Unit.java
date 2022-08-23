@@ -44,6 +44,5 @@ class Unit {
         next = null;
         value = null;
         /*  FOR ListIterator*/
-        prev = null;
     }
 }

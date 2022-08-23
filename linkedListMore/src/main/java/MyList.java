@@ -334,7 +334,6 @@ public class MyList implements List {
     }
 
     private class ListItr implements Iterator<Object> {
-        private Unit lastReturned;
         private Unit next;
         private int nextIndex;
 //        private int expectedModCount = modCount;
@@ -353,7 +352,7 @@ public class MyList implements List {
         public Object next() {
             if (!hasNext())
                 throw new NoSuchElementException();
-            lastReturned = next;
+            Unit lastReturned = next;
             next = next.getNext();
             nextIndex++;
             return lastReturned.getValue();
@@ -365,12 +364,16 @@ public class MyList implements List {
         private Unit next;
         private Unit prev;
         private int nextIndex;
-        private Unit last;
+        //        private Unit last;
         private Unit first;
 
         public ListItr002(int index) {
-            if (index == size) next = null;
-            else next = head;
+            if (index == size) {
+                next = null;
+                prev = head;
+            } else {
+                next = head;
+            }
             nextIndex = index;
         }
 
@@ -415,7 +418,7 @@ public class MyList implements List {
             return nextIndex - 1;
         }
 
-        private Object unlink(Unit x) {
+        private void unlink(Unit x) {
             // assert x != null;
             final Object element = x.getValue();
             final Unit next = x.getNext();
@@ -438,7 +441,6 @@ public class MyList implements List {
             x.setValue(null);
             size--;
 //            modCount++;
-            return element;
         }
 
         @Override
@@ -485,7 +487,6 @@ public class MyList implements List {
             else
                 prev.setNext(newUnit);
             size++;
-            last = newUnit;
         }
 
         @Override
@@ -536,10 +537,7 @@ public class MyList implements List {
         clear();
         head = time.get(0);
         size = timeSize;
-        if (isEmpty()) {
-            return false;
-        }
-        return true;
+        return !isEmpty();
     }
 
     /*
