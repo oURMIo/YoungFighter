@@ -11,6 +11,7 @@ public class TestZone {
         IntStream.range(0, 10).forEach(list::add);
         System.out.println("list = " + list);
 
+
         System.out.printf(" %n /// from head to last   /// %n");
         for (Iterator iterator = list.listIterator(); iterator.hasNext(); ) {
             Object next = iterator.next();

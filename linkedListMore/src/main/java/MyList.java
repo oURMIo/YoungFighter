@@ -4,7 +4,7 @@ public class MyList implements List {
 
     private int size;
     private Unit head;
-    private Unit last;
+    private Unit back;
 
     public void replaceId() {
         Unit time = head;
@@ -44,12 +44,12 @@ public class MyList implements List {
         return true;
     }
 
-    public Object getVal(int index) {
+    private Unit getUnit(int index) {
         Unit curr = head;
-        Object time = null;
+        Unit time = null;
         while (curr != null) {
             if (curr.getId() == index) {
-                time = curr.getValue();
+                time = curr;
             }
             curr = curr.getNext();
         }
@@ -73,20 +73,15 @@ public class MyList implements List {
     public boolean add(Object o) {
         Unit newAll = new Unit();
         newAll.setId(size);
-        size++;
         newAll.setValue(o);
+        size++;
         if (head == null) {
             head = newAll;
         } else {
-            Unit endList = head;
-            Unit preEndList = head;
-            while (endList != null) {
-                preEndList = endList;
-                endList = endList.getNext();
-            }
-            preEndList.setNext(newAll);
+            back.setNext(newAll);
         }
-        last = newAll;
+        newAll.setPrev(back);
+        back = newAll;
         return true;
     }
 
@@ -123,12 +118,12 @@ public class MyList implements List {
     }
 
     @Override
-    public Unit get(int index) {
+    public Object get(int index) {
         Unit curr = head;
-        Unit time = null;
+        Object time = null;
         while (curr != null) {
             if (curr.getId() == index) {
-                time = curr;
+                time = curr.getValue();
             }
             curr = curr.getNext();
         }
@@ -171,6 +166,7 @@ public class MyList implements List {
         size++;
         if (head == null) {
             head = newAll;
+            back = newAll;
         } else {
             int i = 0;
             Unit endList = head;
@@ -178,12 +174,12 @@ public class MyList implements List {
             while (i != index) {
                 preEndList = endList;
                 newAll.setNext(endList.getNext());
+                newAll.setPrev(endList.getPrev());
                 endList = endList.getNext();
                 i++;
             }
             preEndList.setNext(newAll);
         }
-        last = newAll;
         replaceId();
     }
 
@@ -336,10 +332,8 @@ public class MyList implements List {
     private class ListItr implements Iterator<Object> {
         private Unit next;
         private int nextIndex;
-//        private int expectedModCount = modCount;
 
         ListItr(int index) {
-            // assert isPositionIndex(index);
             if (index == size) next = null;
             else next = head;
             nextIndex = index;
@@ -364,15 +358,17 @@ public class MyList implements List {
         private Unit next;
         private Unit prev;
         private int nextIndex;
-        //        private Unit last;
+        private Unit last;
         private Unit first;
+        private int expectedModCount = 0;
 
         public ListItr002(int index) {
             if (index == size) {
                 next = null;
-                prev = head;
+                last = back;
             } else {
                 next = head;
+                last = null;
             }
             nextIndex = index;
         }
@@ -402,8 +398,12 @@ public class MyList implements List {
             if (!hasPrevious())
                 throw new NoSuchElementException();
 
-            if (next == null) lastReturned = next = last;
-            else lastReturned = next = next.getPrev();
+            if (next == null) {
+                lastReturned = last;
+                next = last;
+            } else {
+                lastReturned = next = next.getPrev();
+            }
             nextIndex--;
             return lastReturned.getValue();
         }
@@ -418,7 +418,7 @@ public class MyList implements List {
             return nextIndex - 1;
         }
 
-        private void unlink(Unit x) {
+        private Object unlink(Unit x) {
             // assert x != null;
             final Object element = x.getValue();
             final Unit next = x.getNext();
@@ -440,7 +440,7 @@ public class MyList implements List {
 
             x.setValue(null);
             size--;
-//            modCount++;
+            return element;
         }
 
         @Override
@@ -454,6 +454,7 @@ public class MyList implements List {
             else
                 nextIndex--;
             lastReturned = null;
+            expectedModCount++;
         }
 
         @Override
@@ -474,7 +475,6 @@ public class MyList implements List {
                 l.setNext(newUnit);
             }
             size++;
-            last = newUnit;
         }
 
         void linkBefore(Object e, Unit succ) {
@@ -497,6 +497,7 @@ public class MyList implements List {
             else
                 linkBefore(o, next);
             nextIndex++;
+            expectedModCount++;
         }
     }
 
@@ -508,7 +509,7 @@ public class MyList implements List {
     @Override
     public List subList(int fromIndex, int toIndex) {
         MyList newline = new MyList();
-        Unit curr = get(fromIndex);
+        Unit curr = getUnit(fromIndex);
         while (curr != get(toIndex)) {
             newline.add(curr.getValue());
             curr = curr.getNext();
@@ -535,16 +536,10 @@ public class MyList implements List {
         }
         System.out.println(time);
         clear();
-        head = time.get(0);
+        head = time.getUnit(0);
         size = timeSize;
         return !isEmpty();
     }
-
-    /*
-        /////////////////////////////
-        /////////   done    /////////
-        /////////////////////////////
-    */
 
     @Override
     public ListIterator listIterator() {

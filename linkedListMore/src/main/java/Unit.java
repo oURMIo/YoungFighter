@@ -2,18 +2,11 @@ class Unit {
     private int id;
     private Object value;
     private Unit next;
-
-    /*  FOR ListIterator*/
     private Unit prev;
-
-    public Unit getPrev() {
-        return prev;
-    }
 
     public void setPrev(Unit prev) {
         this.prev = prev;
     }
-    /*/ FOR ListIterator*/
 
     public void setId(int id) {
         this.id = id;
@@ -25,6 +18,10 @@ class Unit {
 
     public void setNext(Unit next) {
         this.next = next;
+    }
+
+    public Unit getPrev() {
+        return prev;
     }
 
     public int getId() {
@@ -43,6 +40,6 @@ class Unit {
         id = 0;
         next = null;
         value = null;
-        /*  FOR ListIterator*/
+        prev = null;
     }
 }
