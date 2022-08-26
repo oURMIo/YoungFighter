@@ -12,12 +12,14 @@ public class TestZone {
         System.out.println("list = " + list);
 
 
+        list.remove(3);
+        System.out.println("list = " + list);
+        list.test();
         System.out.printf(" %n /// from head to last   /// %n");
         for (Iterator iterator = list.listIterator(); iterator.hasNext(); ) {
             Object next = iterator.next();
             System.out.print(next + " ");
         }
-
         System.out.printf(" %n /// from last to head   /// %n");
         for (ListIterator iterator = list.listIterator(list.size()); iterator.hasPrevious(); ) {
             Object prev = iterator.previous();

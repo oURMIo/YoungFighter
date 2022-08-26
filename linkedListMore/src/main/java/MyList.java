@@ -6,7 +6,7 @@ public class MyList implements List {
     private Unit head;
     private Unit back;
 
-    public void replaceId() {
+    private void replaceId() {
         Unit time = head;
         for (int i = 0; i < size; i++) {
             time.setId(i);
@@ -54,6 +54,14 @@ public class MyList implements List {
             curr = curr.getNext();
         }
         return time;
+    }
+
+    public void test() {
+        Unit time = back;
+        while (time != null) {
+            System.out.printf("[%s] ", time.getValue());
+            time = time.getPrev();
+        }
     }
 
     @Override
@@ -147,6 +155,7 @@ public class MyList implements List {
             if (find.getNext().getId() == index) {
                 time = find.getValue();
                 find.setNext(find.getNext().getNext());
+                find.getNext().setPrev(find);
             }
             find = find.getNext();
         }
