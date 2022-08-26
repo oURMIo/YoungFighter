@@ -10,9 +10,11 @@ public class TestZone {
         MyList list = new MyList();
         IntStream.range(0, 10).forEach(list::add);
         System.out.println("list = " + list);
+        list.test();
 
-        var res = list.subList(2,5);
-        System.out.println("res == " + res);
+        list.add(0, 10);
+        System.out.println("list = " + list);
+        list.test();
 
 
         System.out.printf(" %n /// from head to last   /// %n");

@@ -56,6 +56,16 @@ public class MyList implements List {
         return time;
     }
 
+    public void test() {
+        Unit time = back;
+        System.out.println("TEST");
+        while (time != null) {
+            System.out.printf("[%s] ", time.getValue());
+            time = time.getPrev();
+        }
+        System.out.println();
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -179,10 +189,20 @@ public class MyList implements List {
         if (index > size) {
             return;
         }
+        if (index == size) {
+            add(element);
+            return;
+        }
         Unit newAll = new Unit();
         newAll.setId(index);
         newAll.setValue(element);
-        size++;
+        if (index == 0) {
+            head.setPrev(newAll);
+            newAll.setNext(head);
+            head = newAll;
+            size++;
+            return;
+        }
         if (head == null) {
             head = newAll;
             back = newAll;
@@ -197,8 +217,11 @@ public class MyList implements List {
                 endList = endList.getNext();
                 i++;
             }
+            newAll.setPrev(preEndList);
+            preEndList.getNext().setPrev(newAll);
             preEndList.setNext(newAll);
         }
+        size++;
         replaceId();
     }
 
