@@ -56,14 +56,6 @@ public class MyList implements List {
         return time;
     }
 
-    public void test() {
-        Unit time = back;
-        while (time != null) {
-            System.out.printf("[%s] ", time.getValue());
-            time = time.getPrev();
-        }
-    }
-
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -537,7 +529,7 @@ public class MyList implements List {
     public List subList(int fromIndex, int toIndex) {
         MyList newline = new MyList();
         Unit curr = getUnit(fromIndex);
-        while (curr != get(toIndex)) {
+        while (curr != getUnit(toIndex).getNext()) {
             newline.add(curr.getValue());
             curr = curr.getNext();
         }
@@ -564,6 +556,7 @@ public class MyList implements List {
         System.out.println(time);
         clear();
         head = time.getUnit(0);
+        back = time.getUnit(timeSize - 1);
         size = timeSize;
         return !isEmpty();
     }

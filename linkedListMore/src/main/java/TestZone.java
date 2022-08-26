@@ -11,13 +11,10 @@ public class TestZone {
         IntStream.range(0, 10).forEach(list::add);
         System.out.println("list = " + list);
 
-/*        var res = list.retainAll(Arrays.asList(0,9,5));
-        System.out.println("res = " + res);*/
+        var res = list.subList(2,5);
+        System.out.println("res == " + res);
 
 
-        list.remove( 0);
-        System.out.println("list = " + list);
-        list.test();
         System.out.printf(" %n /// from head to last   /// %n");
         for (Iterator iterator = list.listIterator(); iterator.hasNext(); ) {
             Object next = iterator.next();
@@ -28,6 +25,5 @@ public class TestZone {
             Object prev = iterator.previous();
             System.out.print(prev + " ");
         }
-
     }
 }
