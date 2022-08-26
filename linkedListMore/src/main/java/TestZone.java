@@ -11,8 +11,11 @@ public class TestZone {
         IntStream.range(0, 10).forEach(list::add);
         System.out.println("list = " + list);
 
+/*        var res = list.retainAll(Arrays.asList(0,9,5));
+        System.out.println("res = " + res);*/
 
-        list.remove(3);
+
+        list.remove( 0);
         System.out.println("list = " + list);
         list.test();
         System.out.printf(" %n /// from head to last   /// %n");

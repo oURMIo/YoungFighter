@@ -99,7 +99,14 @@ public class MyList implements List {
             return false;
         }
         if (head.getValue() == o) {   /*   IF WE NEED FIRST   */
+            head.getNext().setPrev(null);
             head = head.getNext();
+            size--;
+            return true;
+        }
+        if (back.getValue() == o) {    /* IF LAST */
+            back.getPrev().setNext(null);
+            back = back.getPrev();
             size--;
             return true;
         }
@@ -107,6 +114,7 @@ public class MyList implements List {
         while (find.getNext() != null) {
             if (find.getNext().getValue() == o) {
                 find.setNext(find.getNext().getNext());
+                find.getNext().setPrev(find);
                 size--;
             }
             find = find.getNext();
@@ -114,6 +122,41 @@ public class MyList implements List {
         replaceId();
         return true;
     }
+
+    @Override
+    public Object remove(int index) {
+        if (isEmpty()) {
+            return null;
+        }
+        Object time = null;
+        if (head.getId() == index) {    /* IF FIRST */
+            time = head.getValue();
+            head.getNext().setPrev(null);
+            head = head.getNext();
+            size--;
+            return time;
+        }
+        if (back.getId() == index) {    /* IF LAST */
+            time = back.getValue();
+            back.getPrev().setNext(null);
+            back = back.getPrev();
+            size--;
+            return time;
+        }
+        Unit find = head;
+        while (find.getNext() != null) {
+            if (find.getNext().getId() == index) {
+                time = find.getValue();
+                find.setNext(find.getNext().getNext());
+                find.getNext().setPrev(find);
+            }
+            find = find.getNext();
+        }
+        size--;
+        replaceId();
+        return time;
+    }
+
 
     @Override
     public int size() {
@@ -138,31 +181,6 @@ public class MyList implements List {
         return time;
     }
 
-    @Override
-    public Object remove(int index) {
-        if (isEmpty()) {
-            return null;
-        }
-        Object time = null;
-        if (head.getId() == index) {
-            time = head.getValue();
-            head = head.getNext();
-            size--;
-            return time;
-        }
-        Unit find = head;
-        while (find.getNext() != null) {
-            if (find.getNext().getId() == index) {
-                time = find.getValue();
-                find.setNext(find.getNext().getNext());
-                find.getNext().setPrev(find);
-            }
-            find = find.getNext();
-        }
-        size--;
-        replaceId();
-        return time;
-    }
 
     @Override
     public void add(int index, Object element) {
