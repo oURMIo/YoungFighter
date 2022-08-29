@@ -58,17 +58,12 @@ public class MyList implements List {
 
     public void test() {
         Unit time = last;
-        System.out.println("TEST");
+        System.out.print("TEST  ");
         while (time != null) {
             System.out.printf("[%s] ", time.getValue());
             time = time.getPrev();
         }
         System.out.println();
-    }
-
-    public void test2() {
-        System.out.println("TEST2");
-        System.out.printf("%n last  = [%s],[%s],[%s]%n", last.getValue(), last.getPrev().getValue(), last.getPrev().getPrev().getValue());
     }
 
     @Override
@@ -389,7 +384,7 @@ public class MyList implements List {
                 last = MyList.this.last;
             } else {
                 next = head;
-                last = null;
+                last = MyList.this.last;
             }
             nextIndex = index;
         }
@@ -427,9 +422,6 @@ public class MyList implements List {
                 next = next.getPrev();
             }
             nextIndex--;
-            if (lastReturned == null){
-                lastReturned = last.getPrev();
-            }
             return lastReturned.getValue();
         }
 
