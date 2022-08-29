@@ -12,10 +12,11 @@ public class TestZone {
         System.out.println("list = " + list);
         list.test();
 
-        list.add(0, 10);
+        list.removeIf(it-> ((Integer)it % 2) == 1);
+
         System.out.println("list = " + list);
         list.test();
-
+        list.test2();
 
         System.out.printf(" %n /// from head to last   /// %n");
         for (Iterator iterator = list.listIterator(); iterator.hasNext(); ) {
