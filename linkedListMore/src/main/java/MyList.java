@@ -250,7 +250,7 @@ public class MyList implements List {
         Unit curr = head;
         int i = 0;
         while (curr != null) {
-            mas[i] = curr;
+            mas[i] = curr.getValue();
             i++;
             curr = curr.getNext();
         }

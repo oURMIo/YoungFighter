@@ -11,8 +11,8 @@ public class TestZone {
         IntStream.range(0, 10).forEach(list::add);
         System.out.println("list = " + list);
         list.printBack();
-
-        list.removeIf(it-> ((Integer)it % 2) == 1);
+        Object[] objects = list.toArray();
+        System.out.println("objects = " + Arrays.toString(objects));
 
         System.out.printf(" %n /// from head to last   /// %n");
         for (Iterator iterator = list.listIterator(); iterator.hasNext(); ) {
