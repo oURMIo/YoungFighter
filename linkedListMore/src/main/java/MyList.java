@@ -56,9 +56,9 @@ public class MyList implements List {
         return time;
     }
 
-    public void test() {
+    public void printBack() {
         Unit time = last;
-        System.out.print("TEST  ");
+        System.out.print("List back - ");
         while (time != null) {
             System.out.printf("[%s] ", time.getValue());
             time = time.getPrev();

@@ -10,7 +10,7 @@ public class TestZone {
         MyList list = new MyList();
         IntStream.range(0, 10).forEach(list::add);
         System.out.println("list = " + list);
-        list.test();
+        list.printBack();
 
         list.removeIf(it-> ((Integer)it % 2) == 1);
 
