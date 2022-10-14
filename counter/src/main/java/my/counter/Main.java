@@ -1,25 +1,48 @@
 package my.counter;
 
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Main {
 
-    public static final int THREAD_COUNNT = 20;
+    public static final int THREAD_COUNT = 100;
 
     public static void main(String[] args) throws InterruptedException {
         UserCounter1 userCounter1 = new UserCounter1();
+        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
 
-        Thread[] threads = new Thread[20];
-        for (int i = 0; i < 20; i++) {
-            threads[i] = new Thread(new RunnableUser(userCounter1, i));
+        for (int i = 0; i < THREAD_COUNT; i++) {
+            executorService.submit(new RunnableUser(userCounter1, i));
         }
+
+        executorService.shutdown();
+    }
+/*
+    public static void main(String[] args) throws InterruptedException {
+        UserCounter1 userCounter1 = new UserCounter1();
+//        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNNT, new ThreadFactory() {
+//            @Override
+//            public Thread newThread(Runnable r) {
+//                Thread t = new Thread(r, "counter-thread");
+//                t.setDaemon(true);
+//                return t;
+//            }
+//        });
+
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
 
         for (int i = 0; i < THREAD_COUNNT; i++) {
-            threads[i].start();
+            executorService.submit(new RunnableUser(userCounter1, i));
         }
+        executorService.shutdown();
 
-    }
+        try {
+            executorService.awaitTermination(1000, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            //nothing to do
+        }
+    }*/
 }
 
 interface Counter {
@@ -30,7 +53,7 @@ interface Counter {
 
 class RunnableUser implements Runnable {
     private final Counter counter;
-    private int id;
+    private final int id;
 
     RunnableUser(Counter counter, int id) {
         this.counter = counter;
