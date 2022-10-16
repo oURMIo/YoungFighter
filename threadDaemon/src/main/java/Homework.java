@@ -10,27 +10,22 @@ public class Homework {
             t.setDaemon(true);
             return t;
         });
-//        Future[] futures1 = new Future[THREAD_COUNT];
 
+        Future<?> future = null;
         for (int i = 0; i < THREAD_COUNT; i++) {
             int finalI = i;
-            Future<?> future = executorService.submit(() -> {
-//                futures1[finalI] = executorService.submit(new RunnableUser(userCounter1, finalI));
+            future = executorService.submit(() -> {
                 executorService.submit(new RunnableUser(userCounter1, finalI));
             });
+        }
+
+        for (int i = 0; i < THREAD_COUNT; i++) {
             try {
                 future.get(10, TimeUnit.SECONDS);
             } catch (ExecutionException | TimeoutException e) {
                 e.printStackTrace();
             }
-
-//            futures1[i] = executorService.submit(new RunnableUser(userCounter1, finalI));
         }
-
-/*
-            for (int i = 0; i < THREAD_COUNT; i++) {
-            System.out.printf("%s%n", futures1[i].get());
-        }*/
         executorService.shutdown();
     }
 }
