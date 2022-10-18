@@ -3,36 +3,34 @@ import java.util.concurrent.*;
 public class Homework {
     public static final int THREAD_COUNT = 100;
 
-    public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
         UserCounter1 userCounter1 = new UserCounter1();
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT, r -> {
             Thread t = new Thread(r, "counter-thread");
             t.setDaemon(true);
             return t;
         });
-        Future<?> future = null;
         Future[] future1 = new Future[THREAD_COUNT];
 
         for (int i = 0; i < THREAD_COUNT; i++) {
-            int finalI = i;
-            future1[i] = future = executorService.submit(() -> {
-                executorService.submit((Runnable) new RunnableUser(userCounter1, finalI));
-            });
+            future1[i] = executorService.submit(new RunnableUser(userCounter1));
         }
 
         for (int i = 0; i < THREAD_COUNT; i++) {
             try {
-                future.get(10, TimeUnit.SECONDS);
+                Object o = future1[i].get(10, TimeUnit.SECONDS);
+                System.out.printf("obj %s = %s%n", i, o);
             } catch (ExecutionException | TimeoutException e) {
                 e.printStackTrace();
             }
         }
-        executorService.shutdown();
 
         System.out.printf("%n%n%n");
         for (int i = 0; i < THREAD_COUNT; i++) {
-            System.out.printf(" %s", future1[i].get());
+            Object time = future1[i].get();
+            System.out.printf(" %s", time);
         }
+        executorService.shutdown();
     }
 }
 
@@ -43,25 +41,16 @@ interface Counter {
     long getValue();
 }
 
-class RunnableUser implements Runnable, Callable {
+class RunnableUser implements Callable<Object> {
     private final Counter counter;
-    private final int id;
 
-    RunnableUser(Counter counter, int id) {
+    RunnableUser(Counter counter) {
         this.counter = counter;
-        this.id = id;
     }
 
     @Override
-    public void run() {
-/*        for (int i = 0; i < 1; i++) {
-        }*/
+    public Object call() {
         counter.increment();
-        System.out.printf(" CountUser %s = %s %n", id, counter.getValue());
-    }
-
-    @Override
-    public Object call() throws Exception {
         return counter.getValue();
     }
 }
