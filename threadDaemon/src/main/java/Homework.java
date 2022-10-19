@@ -10,10 +10,11 @@ public class Homework {
             t.setDaemon(true);
             return t;
         });
-        Future[] future1 = new Future[THREAD_COUNT];
+        CompletableFuture[] future1 = new CompletableFuture[THREAD_COUNT];
 
         for (int i = 0; i < THREAD_COUNT; i++) {
-            future1[i] = executorService.submit(new RunnableUser(userCounter1));
+//            future1[i] = executorService.submit(new RunnableUser(userCounter1));
+            future1[i] = CompletableFuture.supplyAsync(userCounter1::incrementAndGet);
         }
 
         for (int i = 0; i < THREAD_COUNT; i++) {
@@ -27,13 +28,12 @@ public class Homework {
 
         System.out.printf("%n%n%n");
         for (int i = 0; i < THREAD_COUNT; i++) {
-            Object time = future1[i].get();
-            System.out.printf(" %s", time);
+            Object obj = CompletableFuture.supplyAsync(userCounter1::getValue).join();
+            System.out.printf(" %s", obj);
         }
         executorService.shutdown();
     }
 }
-
 
 interface Counter {
     void increment();
@@ -69,5 +69,10 @@ class UserCounter1 implements Counter {
     @Override
     public synchronized long getValue() {
         return value;
+    }
+
+    public synchronized long incrementAndGet() {
+        increment();
+        return getValue();
     }
 }
