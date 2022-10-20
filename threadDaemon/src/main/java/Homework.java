@@ -13,15 +13,17 @@ public class Homework {
         CompletableFuture[] future1 = new CompletableFuture[THREAD_COUNT];
 
         for (int i = 0; i < THREAD_COUNT; i++) {
-//            future1[i] = executorService.submit(new RunnableUser(userCounter1));
             future1[i] = CompletableFuture.supplyAsync(userCounter1::incrementAndGet);
         }
 
-        for (int i = 0; i < THREAD_COUNT; i++) {
+        CompletableFuture.allOf(future1).join();
+        System.out.printf("%s %n", userCounter1.getValue());
+
+/*        for (int i = 0; i < THREAD_COUNT; i++) {
             future1[i].allOf(future1).join();
             Object o = future1[i].join();
             System.out.printf("obj %s = %s%n", i, o);
-        }
+        }*/
 
         System.out.printf("%n%n%n");
         for (int i = 0; i < THREAD_COUNT; i++) {
@@ -69,7 +71,11 @@ class UserCounter1 implements Counter {
     }
 
     public synchronized long incrementAndGet() {
+        if (value == 50) {
+            throw new IllegalStateException();
+        }
         increment();
+        System.out.printf(" %s", getValue());
         return getValue();
     }
 }
