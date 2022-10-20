@@ -18,17 +18,14 @@ public class Homework {
         }
 
         for (int i = 0; i < THREAD_COUNT; i++) {
-            try {
-                Object o = future1[i].get(10, TimeUnit.SECONDS);
-                System.out.printf("obj %s = %s%n", i, o);
-            } catch (ExecutionException | TimeoutException e) {
-                e.printStackTrace();
-            }
+            future1[i].allOf(future1).join();
+            Object o = future1[i].join();
+            System.out.printf("obj %s = %s%n", i, o);
         }
 
         System.out.printf("%n%n%n");
         for (int i = 0; i < THREAD_COUNT; i++) {
-            Object obj = CompletableFuture.supplyAsync(userCounter1::getValue).join();
+            Object obj = future1[i].join();
             System.out.printf(" %s", obj);
         }
         executorService.shutdown();
